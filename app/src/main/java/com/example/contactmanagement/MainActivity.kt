@@ -41,19 +41,6 @@ class MainActivity : ComponentActivity() {
                             title = { Text("Contact Management") },
                             modifier = Modifier.statusBarsPadding()
                         )
-                    },
-                    floatingActionButton = {
-                        FloatingActionButton(
-                            onClick = {
-                                navController.navigate("addContact")
-                            },
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = "Add Contact"
-                                )
-                            }
-                        )
                     }
                 ) { padding ->
                     AppNavHost(

@@ -1,10 +1,16 @@
 package com.example.contactmanagement.screens
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,37 +30,58 @@ fun ContactScreen(viewModel: ContactViewModel, navController: NavController, mod
     val contacts by viewModel.contactList.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = modifier
     ) {
-        Text(text = "Contacts")
-        if (contacts.isEmpty()) {
-            Text(
-                text = "No contacts available. \n Please add a contact.",
-                color = Color.LightGray,
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-        LazyColumn {
-            items(contacts.size) { index ->
-                val contact = contacts[index]
-                ContactItem(
-                    contact = contact,
-                    onEdit = { id ->
-                        navController.navigate("editContact/$id")
-                    },
-                    onDelete = {
-                        showDialog = true
-                    }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Contacts")
+            if (contacts.isEmpty()) {
+                Text(
+                    text = "No contacts available. \n Please add a contact.",
+                    color = Color.LightGray,
+                    modifier = Modifier.padding(16.dp)
                 )
-                DeleteConfirmationDialog(showDialog, {
-                    showDialog = false
-                }, {
-                    viewModel.deleteContact(contact.id)
-                })
+            }
+            LazyColumn {
+                items(
+                    items = contacts,
+                    key = {
+                        it.id
+                    }
+                ) { contact ->
+                    ContactItem(
+                        contact = contact,
+                        onEdit = { id ->
+                            navController.navigate("editContact/$id")
+                        },
+                        onDelete = {
+                            showDialog = true
+                        }
+                    )
+                    DeleteConfirmationDialog(showDialog, {
+                        showDialog = false
+                    }, {
+                        viewModel.deleteContact(contact.id)
+                    })
+                }
             }
         }
+        FloatingActionButton(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(20.dp),
+            onClick = {
+                navController.navigate("addContact")
+            },
+            content = {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add Contact"
+                )
+            }
+        )
     }
 }
 
