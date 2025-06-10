@@ -6,8 +6,12 @@ import com.example.contactmanagement.AppDatabase
 import com.example.contactmanagement.repository.model.ContactDao
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class DataModule {
     @Provides
     fun providesContext(application: Application): Context {
@@ -15,6 +19,7 @@ class DataModule {
     }
 
     @Provides
+    @Singleton
     fun providesDatabase(
         context: Context
     ): AppDatabase {

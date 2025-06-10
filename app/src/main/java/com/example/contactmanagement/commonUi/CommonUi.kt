@@ -73,7 +73,7 @@ fun ContactInputs(
     var name by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
 
-    Column {
+    Column(modifier = Modifier.padding(16.dp)) {
         TextField(
             value = name,
             onValueChange = {
