@@ -3,7 +3,7 @@ package com.example.contactmanagement.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +20,12 @@ import com.example.contactmanagement.commonUi.ContactInputs
 import com.example.contactmanagement.model.ContactItem
 
 @Composable
-fun EditScreen(navController: NavController, viewModel: ContactViewModel, contactId: Int?) {
+fun EditScreen(
+    navController: NavController,
+    viewModel: ContactViewModel,
+    modifier: Modifier,
+    contactId: Int?
+) {
     var contact by remember { mutableStateOf<ContactItem?>(null) }
 
     LaunchedEffect(true) {
@@ -33,17 +38,23 @@ fun EditScreen(navController: NavController, viewModel: ContactViewModel, contac
     }
 
     Column(
-        modifier = Modifier.padding(16.dp),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("Edit Contact", style = MaterialTheme.typography.headlineSmall)
         Spacer(modifier = Modifier.height(20.dp))
-        ContactInputs(navController) { name, phoneNumber ->
-            viewModel.editContact(
-                contact?.id,
-                name = name,
-                phoneNumber = phoneNumber
-            )
+        if (contact != null) {
+            ContactInputs(
+                navController = navController,
+                initialName = contact!!.name,
+                initialPhoneNumber = contact!!.phoneNumber
+            ) { name, phoneNumber ->
+                viewModel.editContact(
+                    contact!!.id,
+                    name = name,
+                    phoneNumber = phoneNumber
+                )
+            }
         }
     }
 }

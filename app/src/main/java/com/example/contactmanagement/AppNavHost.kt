@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.contactmanagement.model.ContactItem
 import com.example.contactmanagement.screens.AddContactScreen
 import com.example.contactmanagement.screens.ContactScreen
 import com.example.contactmanagement.screens.ContactViewModel
@@ -28,8 +27,8 @@ fun AppNavHost(
             AddContactScreen(navController = navController, viewModel = viewModel, modifier)
         }
         composable("editContact/{contactId}") { backStackEntry ->
-            val contactId = backStackEntry.arguments?.getInt("contactId")
-            EditScreen(navController = navController, viewModel = viewModel, contactId = contactId)
+            val contactId = backStackEntry.arguments?.getString("contactId")?.toIntOrNull()
+            EditScreen(navController = navController, viewModel = viewModel, modifier = modifier, contactId = contactId)
         }
     }
 }
