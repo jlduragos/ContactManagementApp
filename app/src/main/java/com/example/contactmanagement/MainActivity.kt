@@ -44,19 +44,13 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 ) { padding ->
-                    Box(modifier = Modifier.fillMaxSize()) {
-                       Text(
-                            text = "Contact Management",
-                            modifier = Modifier.padding(padding)
-                        )
-                    }
-//                    AppNavHost(
-//                        navController = navController,
-//                        viewModel = viewModel,
-//                        modifier = Modifier
-//                            .padding(padding)
-//                            .fillMaxSize()
-//                    )
+                    AppNavHost(
+                        navController = navController,
+                        viewModel = viewModel,
+                        modifier = Modifier
+                            .padding(padding)
+                            .fillMaxSize()
+                    )
                 }
             }
         }
